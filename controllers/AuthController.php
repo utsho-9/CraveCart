@@ -3,7 +3,6 @@ require_once 'models/Database.php';
 require_once 'models/User.php';
 
 class AuthController {
-
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $email = trim($_POST['email']);

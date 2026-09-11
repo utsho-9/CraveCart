@@ -4,7 +4,7 @@ class Database {
     private $host = "127.0.0.1";
     private $db_name = "cravecart_db";
     private $username = "root";
-    private $password = ""; 
+    private $password = "";
     public $conn;
 
     public function getConnection() {

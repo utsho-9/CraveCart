@@ -47,6 +47,96 @@ switch ($action) {
         (new AdminController())->index();
         break;
 
+    case 'createUser':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') die("Unauthorized");
+        require_once 'controllers/AdminController.php';
+        (new AdminController())->createUser();
+        break;
+
+    case 'deleteUser':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') die("Unauthorized");
+        require_once 'controllers/AdminController.php';
+        (new AdminController())->deleteUser();
+        break;
+
+    case 'searchUsers':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') die("Unauthorized");
+        require_once 'controllers/AdminController.php';
+        (new AdminController())->searchUsers();
+        break;
+
+    case 'approvePayment':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') die("Unauthorized");
+        require_once 'controllers/AdminController.php';
+        (new AdminController())->approvePayment();
+        break;
+
+    case 'moderateFeedback':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') die("Unauthorized");
+        require_once 'controllers/AdminController.php';
+        (new AdminController())->moderateFeedback();
+        break;
+
+    case 'createProduct':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'restaurant') die("Unauthorized");
+        require_once 'controllers/RestaurantController.php';
+        (new RestaurantController())->createProduct();
+        break;
+
+    case 'deleteProduct':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'restaurant') die("Unauthorized");
+        require_once 'controllers/RestaurantController.php';
+        (new RestaurantController())->deleteProduct();
+        break;
+
+    case 'searchProducts':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'restaurant') die("Unauthorized");
+        require_once 'controllers/RestaurantController.php';
+        (new RestaurantController())->searchProducts();
+        break;
+
+    case 'toggleAvailability':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'restaurant') die("Unauthorized");
+        require_once 'controllers/RestaurantController.php';
+        (new RestaurantController())->toggleAvailability();
+        break;
+
+    case 'markPreparing':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'restaurant') die("Unauthorized");
+        require_once 'controllers/RestaurantController.php';
+        (new RestaurantController())->markPreparing();
+        break;
+
+    case 'placeOrder':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'customer') die("Unauthorized");
+        require_once 'controllers/CustomerController.php';
+        (new CustomerController())->placeOrder();
+        break;
+
+    case 'updateRequest':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'customer') die("Unauthorized");
+        require_once 'controllers/CustomerController.php';
+        (new CustomerController())->updateRequest();
+        break;
+
+    case 'cancelOrder':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'customer') die("Unauthorized");
+        require_once 'controllers/CustomerController.php';
+        (new CustomerController())->cancelOrder();
+        break;
+
+    case 'searchMenu':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'customer') die("Unauthorized");
+        require_once 'controllers/CustomerController.php';
+        (new CustomerController())->searchMenu();
+        break;
+
+    case 'submitFeedback':
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'customer') die("Unauthorized");
+        require_once 'controllers/CustomerController.php';
+        (new CustomerController())->submitFeedback();
+        break;
+
     case 'addNote':
         if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'delivery') die("Unauthorized");
         require_once 'controllers/DeliveryController.php';
