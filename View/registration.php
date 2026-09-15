@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create account | CraveCart</title>
     <link rel="stylesheet" type="text/css" href="assets/style.css">
+    <script src="Controller/JS/checkEmail.js"></script>
 </head>
 <body class="auth-page">
 <main class="auth-shell">
@@ -30,7 +31,10 @@
 
         <form action="index.php?action=register" method="POST">
             <input type="text" name="name" placeholder="Full name" autocomplete="name" required>
-            <input type="email" name="email" placeholder="Email address" autocomplete="email" required>
+            <div>
+                <input type="email" id="email" name="email" placeholder="Email address" autocomplete="email" onkeyup="checkEmail()" required>
+                <p id="emailResponse" style="margin-top: 4px; font-size: 0.85rem;"></p>
+            </div>
             <input type="password" name="password" placeholder="Create a password" autocomplete="new-password" required>
             <select name="role" required>
                 <option value="" disabled selected>Select account type</option>

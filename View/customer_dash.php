@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer dashboard | CraveCart</title>
     <link rel="stylesheet" href="assets/style.css">
+    <script src="Controller/JS/customerActions.js"></script>
 </head>
 <body>
 <main class="app-shell">
@@ -23,10 +24,10 @@
     </header>
 
     <?php if (isset($_SESSION['success'])): ?>
-        <div class="notice notice-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
+        <div class="notice notice-success"><?php echo htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></div>
     <?php endif; ?>
     <?php if (isset($_SESSION['error'])): ?>
-        <div class="notice notice-error"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
+        <div class="notice notice-error"><?php echo htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></div>
     <?php endif; ?>
 
     <section class="panel" aria-labelledby="menu-heading">
@@ -46,12 +47,12 @@
                     <img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
                     <div class="product-card-body">
                         <h3><?php echo htmlspecialchars($item['name']); ?></h3>
-                        <p class="product-price">$<?php echo $item['price']; ?></p>
+                        <p class="product-price">$<?php echo number_format($item['price'], 2); ?></p>
 
                         <form action="index.php?action=placeOrder" method="POST" onsubmit="return validateOrder(this)">
                             <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
                             <input type="text" name="custom_request" placeholder="Custom request (optional)">
-                            <select name="zone">
+                            <select name="zone" required>
                                 <option value="">Select delivery zone</option>
                                 <option value="North Zone">North Zone</option>
                                 <option value="South Zone">South Zone</option>
@@ -94,8 +95,8 @@
                             <?php endif; ?>
                         </td>
                         <td><?php echo htmlspecialchars($order['zone']); ?> <?php echo $order['is_express'] ? '<span class="pill pill-express">Express</span>' : ''; ?></td>
-                        <td><span class="pill"><?php echo $order['status']; ?></span></td>
-                        <td>$<?php echo $order['total_price']; ?></td>
+                        <td><span class="pill"><?php echo htmlspecialchars($order['status']); ?></span></td>
+                        <td>$<?php echo number_format($order['total_price'], 2); ?></td>
                         <td>
                             <?php if($order['status'] === 'Pending'): ?>
                                 <button type="button" onclick="cancelOrder(<?php echo $order['id']; ?>)" class="delete-btn">Cancel</button>
@@ -135,56 +136,12 @@
                 <?php while ($fb = mysqli_fetch_assoc($feedback_result)): ?>
                     <li>
                         “<?php echo htmlspecialchars($fb['message']); ?>”
-                        <span class="feedback-meta">Status: <?php echo $fb['admin_action']; ?></span>
+                        <span class="feedback-meta">Status: <?php echo htmlspecialchars($fb['admin_action']); ?></span>
                     </li>
                 <?php endwhile; ?>
             </ul>
         </section>
     </section>
 </main>
-
-<script>
-    function validateOrder(form) {
-        const zone = form.zone.value;
-        if (zone === '') {
-            alert("Frontend Validation Error: Please select a delivery zone before ordering.");
-            return false;
-        }
-        return true;
-    }
-
-    function searchMenu() {
-        const query = document.getElementById('searchMenuInput').value.toLowerCase();
-        const products = document.querySelectorAll('.product-card');
-
-        products.forEach(card => {
-            const title = card.querySelector('h3').innerText.toLowerCase();
-            if (title.includes(query)) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-
-        fetch(`index.php?action=searchMenu&q=${query}`)
-            .then(res => res.json())
-            .then(data => console.log("JSON Search Results: ", data));
-    }
-
-    function cancelOrder(id) {
-        if (confirm("Are you sure you want to cancel this order?")) {
-            fetch(`index.php?action=cancelOrder&id=${id}`)
-                .then(res => res.json())
-                .then(data => {
-                    if(data.status === 'success') {
-                        document.getElementById('order-' + id).remove();
-                        alert("Order cancelled successfully.");
-                    } else {
-                        alert("Error: Cannot cancel this order.");
-                    }
-                });
-        }
-    }
-</script>
 </body>
 </html>
